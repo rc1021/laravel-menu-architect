@@ -1,0 +1,27 @@
+{
+    "name": "rc1021/laravel-menu-architect",
+    "description": "backend menu builder",
+    "require": {
+        "spatie/laravel-menu": "3.4.0",
+        "illuminate/support": "^6.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "rc1021",
+            "email": "rc.701021@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Rc1021\\LaravelMenuArchitect\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rc1021\\LaravelMenuArchitect\\LaravelMenuArchitectServiceProvider"
+            ]
+        }
+    }
+}

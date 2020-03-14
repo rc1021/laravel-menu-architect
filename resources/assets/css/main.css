@@ -1,0 +1,10 @@
+.table>tbody>tr>td {
+    line-height: 32px;
+}
+
+.table tbody tr:last-child {
+    display: none;
+}
+.table tbody tr:first-child {
+    display: contents;
+}
