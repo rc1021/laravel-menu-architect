@@ -20,6 +20,3 @@ Route::resource('menu_arct/{menu_arct}/items', MenuItemController::class)
         'items' => 'menu_arct_item'
     ])
     ->middleware(config('menu_architect.middleware'));
-
-Route::get('menu_arct_example', MenuController::class . '@example')
-    ->name('menu_arct.example');

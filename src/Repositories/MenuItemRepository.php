@@ -52,7 +52,9 @@ class MenuItemRepository
         
         $item = MenuArchitectItem::findOrFail($id)->toArray();
         $marct = MenuArct::model($item['menu_id']);
-        $item['children'] = $marct->toArray($item['id']);
+        $children = $marct->toArray($item['id']);
+        if(count($children) > 0)
+            $item['children'] = $children;
         return $item;
     }
 

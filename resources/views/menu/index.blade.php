@@ -1,4 +1,4 @@
-@extends('menu_architect::master')
+@extends('menu_architect::page')
 
 @section('title', 'Menu')
 
@@ -13,7 +13,7 @@
 <div class="alert alert-info">
     <strong>How To Use:</strong>
     <p>
-        You can output a menu html anywhere on your site by calling <code>menu_arct('name')</code>, <a target="_blank" href="{{route('menu_arct.example')}}">see more examples.</a>
+        You can output a menu html anywhere on your site by calling <code>menu_arct('name')</code>.</a>
     </p>
 </div>
 
@@ -25,7 +25,7 @@
         <thead> 
             <tr> 
                 <th width="100%">Name</th> 
-                <th nowrap>Actions</th> 
+                <th nowrap class="text-right">Actions</th> 
             </tr> 
         </thead> 
         <tbody> 
@@ -34,8 +34,9 @@
                 <td>
                     {{ $item->name }}
                 </td> 
-                <td>
-                    <a href="{{ route('menu_arct.edit', [$item]) }}" class="btn btn-primary"><i class="glyphicon glyphicon-wrench"></i>&nbsp;Edit</a>
+                <td nowrap class="text-right">
+                    <a href="{{ route('menu_arct.edit', [$item]) }}" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a>
+                    <a href="{{ route('menu_arct.destroy', [$item]) }}" data-rel="btnConfirm" data-timeout="2" data-confirm-text="Double touch to remove!" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i> Delete</a>
                 </td> 
             </tr> 
             @endforeach
@@ -48,7 +49,14 @@
 @endsection
 
 @section('js')
-
+<script>
+    $(function () {
+        $(document.body)
+            .on('ajax:success', '[data-rel="btnConfirm"]', function (event, data, status, xhr) {
+                $(this).closest('tr').remove();
+            });
+    })
+</script>
 @endsection
 
 @section('css')

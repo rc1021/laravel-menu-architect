@@ -1,12 +1,14 @@
-@extends('menu_architect::master')
+@extends('menu_architect::page')
 
 @section('title', 'Create Menu')
 
-@section('content')
+@section('content_header')
 <h1 class="page-title">
     <i class="glyphicon glyphicon-list"></i> Create Menu
 </h1>
+@stop
 
+@section('content')
 <form method="POST" action="{{ route('menu_arct.store') }}" class="form-horizontal">
     @csrf
     <div class="panel panel-default">
@@ -23,10 +25,10 @@
                     @enderror
                 </div>
             </div>
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </div>
-    </div>
-    <div class="text-right">
-        <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </form>
 

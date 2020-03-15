@@ -1,15 +1,18 @@
-@extends('menu_architect::master')
+@extends('menu_architect::page')
 
 @section('title', 'Edit Menu')
 
-@section('content')
+@section('content_header')
 <h1 class="page-title">
     <i class="glyphicon glyphicon-list"></i> Menu Item ({{ $model->data->name }})
 </h1>
+@stop
+
+@section('content')
 <div class="alert alert-info">
     <strong>How To Use:</strong>
     <p>
-        You can output a menu html anywhere on your site by calling  <code>menu_arct('{{ $model->data->name }}')</code>, <a target="_blank" href="{{route('menu_arct.example')}}">see more examples.</a>
+        You can output a menu html anywhere on your site by calling  <code>menu_arct('{{ $model->data->name }}')</code>.</a>
     </p>
 </div>
 
@@ -29,18 +32,18 @@
                     @enderror
                 </div>
             </div>
+            <div class="text-right">
+                <a href="{{ route('menu_arct.index') }}" class="btn btn-default">Cancel</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </div>
-    </div>
-    <div class="text-right">
-        <a href="{{ route('menu_arct.index') }}" class="btn btn-default">Cancel</a>
-        <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </form>
 
-<div class="box box-solid">
+<div class="box box-solid marct-builder">
     <div class="box-header with-border">
       <h3 class="box-title">Menu Builder
-        <button type="button" class="btn btn-success create" data-toggle="modal" data-target="#addItemModal">
+        <button type="button" class="btn btn-success marct-create" data-target="#addItemModal">
             <i class="glyphicon glyphicon-plus"></i> Add New Item
         </button>
       </h3>
@@ -58,8 +61,8 @@
     </div>
 </div>
 
-@include('menu_architect::menu_item.create', compact('model'))
-@include('menu_architect::menu_item.edit', compact('model'))
+@include('menu_architect::menu._item_create', compact('model'))
+@include('menu_architect::menu._item_edit', compact('model'))
 
 @endsection
 
@@ -94,10 +97,10 @@
             },
             toolRenderer: function (item_attrs_string, item) {
                 var html  = '<div class="pull-right item_actions">';
-                    html += '<a href="' + opt.updateUrl.replace('replace_id', item.id) + '" class="btn btn-primary edit"' + item_attrs_string + '>';
+                    html += '<a href="' + opt.updateUrl.replace('replace_id', item.id) + '" class="btn btn-primary marct-edit"' + item_attrs_string + '>';
                     html += '<i class="glyphicon glyphicon-edit"></i> Edit';
                     html += '</a>';
-                    html += '<a href="' + opt.destroyUrl.replace('replace_id', item.id) + '" data-rel="btnConfirm" data-timeout="2" data-confirm-text="Double touch to remove!" class="btn btn-danger delete"' + item_attrs_string + '>';
+                    html += '<a href="' + opt.destroyUrl.replace('replace_id', item.id) + '" data-rel="btnConfirm" data-timeout="2" data-confirm-text="Double touch to remove!" class="btn btn-danger marct-delete"' + item_attrs_string + '>';
                     html += '<i class="glyphicon glyphicon-trash"></i> Delete';
                     html += '</a>';
                     html += '</div>';
@@ -137,26 +140,36 @@
                     children = item.children(nestable.options.listNodeName).children(nestable.options.itemNodeName);
                 item.after(children);
                 nestable.remove(data.id);
+                Toast.fire({
+                    icon: 'success',
+                    title: 'remove success ' + data.label
+                })
             })
             .on('ajax:beforeSend', '[data-rel="btnConfirm"]', function (event, xhr, settings) { /*  */ })
             .on('ajax:error', '[data-rel="btnConfirm"]', function (event, xhr, status, error) { /*  */ })
-            .on('ajax:complete', '[data-rel="btnConfirm"]', function (event, xhr, status) { /*  */ })
-            .on('click', '.edit', function (event) {
+            .on('ajax:complete', '[data-rel="btnConfirm"]', function (event, xhr, status) { /*  */ });
+
+        $('.marct-builder')
+            .on('click', '.marct-create', function (event) {
+                event.preventDefault();
+                $('#addItemModal').modal('show', this);
+            })
+            .on('click', '.marct-edit', function (event) {
                 event.preventDefault();
                 $('#editItemModal').modal('show', this);
             });
 
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
 
         $('.modal[role="dialog"]')
             .on('shown.bs.modal', function (event) {
@@ -168,14 +181,15 @@
                 modal.find('form').each(function () 
                 {
                     this.reset();
-                    if(action)
+                    if(action) {
                         $(this).attr('action', action);
-                    for(var key in recipient) {
-                        $('[name="' + key + '"]').val(recipient[key]).trigger('change');
+                        for(var key in recipient) {
+                            $('[name="' + key + '"]').val(recipient[key]).trigger('change');
+                        }
                     }
                 });
             })
-            .on('click', '.submit', function (event) {
+            .on('click', '.marct-submit', function (event) {
                 $(event.delegateTarget).modal('hide');
                 $form = $(event.delegateTarget).find('form');
                 $.ajax({
@@ -185,6 +199,8 @@
                 }).done(function(data, status, xhr) {
                     let nestable = $nestable.data('nestable'),
                         item = nestable._getItemById(data.properties.id);
+                    if(data.properties.parent_id == 0)
+                        delete data.properties.parent_id;
                     if(item.length > 0)
                         nestable.replace(data.properties);
                     else

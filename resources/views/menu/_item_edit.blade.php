@@ -1,13 +1,14 @@
-<div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel">
+<div class="modal fade" id="editItemModal" tabindex="-1" role="dialog" aria-labelledby="editItemModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
           <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="addItemModalLabel"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add New Item</h4>
+          <h4 class="modal-title" id="editItemModalLabel"><i class="glyphicon glyphicon-edit"></i> Edit Item</h4>
           </div>
           <div class="modal-body">
-          <form method="POST" action="{{route('menu_arct_item.store', [$model->data])}}">
+          <form method="POST" action="{{route('menu_arct_item.update', ['menu_arct' => $model->data->id, 'menu_arct_item' => 'replace_id'])}}">
               @csrf
+              @method('PUT')
               <input type="hidden" name="menu_id" value="{{$model->data->id}}" />
               <div class="form-group">
                 <label for="">Title</label>
@@ -53,7 +54,7 @@
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary submit">Submit</button>
+              <button type="button" class="btn btn-primary marct-submit">Submit</button>
           </div>
     </div>
   </div>

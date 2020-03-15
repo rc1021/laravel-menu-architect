@@ -54,11 +54,5 @@ class MenuController extends Controller
     public function destroy($id)
     {
         $this->m_rep->destroy($id);
-        return redirect()->route('menu_arct.index');
-    }
-
-    public function example() 
-    {
-        return view('menu_architect::example');
     }
 }

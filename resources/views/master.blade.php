@@ -7,15 +7,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
 
-    @include('menu_architect::plugins', ['type' => 'css'])
+    @stack('css')
     @yield('css')
 </head>
 <body>
+    
     <div class="container-fluid">
+
+        <section class="content-header">
+            @yield('content_header')
+        </section>
+
         @yield('content')
     </div>
 
-    @include('menu_architect::plugins', ['type' => 'js'])
+    @stack('js')
     @yield('js')
 </body>
 </html>

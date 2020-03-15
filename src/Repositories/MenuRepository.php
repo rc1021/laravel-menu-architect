@@ -2,8 +2,10 @@
 
 namespace Rc1021\LaravelMenuArchitect\Repositories;
 
+use DB;
 use Illuminate\Http\Request;
 use Rc1021\LaravelMenuArchitect\Models\MenuArchitect;
+use Rc1021\LaravelMenuArchitect\Models\MenuArchitectItem;
 
 class MenuRepository
 {
@@ -33,12 +35,21 @@ class MenuRepository
 
     public function update($input, $id)
     {
-        
+        $collection = collect($input);
+        $filtered = $collection->only(['name']);
+
+        $menu = MenuArchitect::findOrFail($id);
+        $menu->fill($filtered->toArray());
+        $menu->save();
     }
 
     public function destroy($id)
     {
-        
+        $menu = MenuArchitect::findOrFail($id);
+        DB::transaction(function () use ($menu) {
+            DB::table((new MenuArchitectItem)->getTable())->where('menu_id', $menu->id)->delete();
+            DB::table($menu->getTable())->where('id', $menu->id)->delete();
+        });
     }
 
 }
