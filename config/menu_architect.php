@@ -4,14 +4,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Ajax Build ?
+    | tips ?
     |--------------------------------------------------------------------------
     |
-    | View edit by ajax if the value is true. 
+    | view tips: how to use;
     |
     */
 
-    'ajax' => false,
+    'tips' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,8 @@ return [
    | Output display
    |--------------------------------------------------------------------------
    |
-   | Display html by 'nestable', 'bootstrap', 'array', 'json', 'adminlte-sidebar'
+   | Display html by 'nestable', 'adminlte', 'bootstrap', 
+   | or data by '_array', '_json'
    |
    */
 
@@ -198,12 +199,6 @@ return [
             'name' => 'Laravel Menu Architect Main Assets',
             'active' => true,
             'files' => [
-                // Boostrap Submenu
-                [
-                    'type' => 'css',
-                    'asset' => true,
-                    'location' => 'vendor/menu_architect/css/boostrap-submenu.css',
-                ],
                 // Nestable2 Draggable Handles
                 [
                     'type' => 'css',

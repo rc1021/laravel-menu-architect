@@ -40,7 +40,7 @@
               </div>
               <div class="form-group">
                 <label for="">Text Color</label>
-                <input type="hidden" name="color" value="#000000" data-rel="simonwep-picker" data-save="Save" data-cancel="Cancel">
+                <input type="hidden" name="color" value="{{config('menu_architect.table_default_color')}}" data-rel="simonwep-picker" data-save="Save" data-cancel="Cancel">
               </div>
               <div class="form-group">
                 <label for="">Open In</label>

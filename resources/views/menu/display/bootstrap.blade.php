@@ -1,3 +1,10 @@
+<div class="collapse navbar-collapse">
+    <ul class="nav navbar-nav">
+        @each('menu_architect::menu.display.bootstrap_list', $items, 'item')
+    </ul>
+</div>
+
+<style>
 .dropdown-submenu {
     position: relative;
 }
@@ -45,3 +52,4 @@
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
+</style>

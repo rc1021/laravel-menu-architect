@@ -4,6 +4,7 @@ namespace Rc1021\LaravelMenuArchitect\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Rc1021\LaravelMenuArchitect\Facades\MenuArct;
 
 class MenuArchitectItem extends Model
 {
@@ -23,6 +24,28 @@ class MenuArchitectItem extends Model
     ];
 
     protected $appends = ['type', 'render_path'];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($model) {
+            $model->menu->removeMenuFromCache();
+        });
+
+        static::saved(function ($model) {
+            $model->menu->removeMenuFromCache();
+        });
+
+        static::deleted(function ($model) {
+            $model->menu->removeMenuFromCache();
+        });
+    }
+
+    public function menu()
+    {
+        return $this->belongsTo(MenuArct::modelClass('MenuArchitect'));
+    }
 
     public function getTypeAttribute()
     {
@@ -45,7 +68,7 @@ class MenuArchitectItem extends Model
             
             return str_replace(\App::make('url')->to('/'), '', $link);
         }
-        else if(!empty($this->route)) {
+        else if(!empty($this->link)) {
             return $this->link;
         }
         return "#";

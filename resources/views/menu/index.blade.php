@@ -10,12 +10,14 @@
     </a>
 </h1>
 
+@if(config('menu_architect.tips'))
 <div class="alert alert-info">
     <strong>How To Use:</strong>
     <p>
-        You can output a menu html anywhere on your site by calling <code>menu_arct('name')</code>.</a>
+        You can output a menu html anywhere on your site by calling <code>menu_arct('name')</code>.
     </p>
 </div>
+@endif
 
 <div class="panel panel-default">
     <div class="panel-heading">

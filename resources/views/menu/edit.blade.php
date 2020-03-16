@@ -9,12 +9,15 @@
 @stop
 
 @section('content')
+
+@if(config('menu_architect.tips'))
 <div class="alert alert-info">
     <strong>How To Use:</strong>
     <p>
-        You can output a menu html anywhere on your site by calling  <code>menu_arct('{{ $model->data->name }}')</code>.</a>
+        You can output a menu html anywhere on your site by calling  <code>menu_arct('{{ $model->data->name }}')</code>.
     </p>
 </div>
+@endif
 
 <form method="POST" action="{{ route('menu_arct.update', [$model->data]) }}" class="form-horizontal">
     @csrf
@@ -53,7 +56,7 @@
     </div>
     <div class="box-body">
         <div class="dd" id="nestable" 
-            data-json="{{ json_encode(menu_arct($model->data->name)->toJson()) }}" 
+            data-json="{{ json_encode(menu_arct($model->data->name, '_json')) }}" 
             data-sort-url="{{route('menu_arct_item.sort', [$model->data, 'menu_arct_item' => 'replace_id'])}}"
             data-update-url="{{route('menu_arct_item.update', [$model->data, 'menu_arct_item' => 'replace_id'])}}"
             data-destroy-url="{{route('menu_arct_item.destroy', [$model->data, 'menu_arct_item' => 'replace_id'])}}">
@@ -61,8 +64,8 @@
     </div>
 </div>
 
-@include('menu_architect::menu._item_create', compact('model'))
-@include('menu_architect::menu._item_edit', compact('model'))
+@include('menu_architect::menu.partial._item_create', compact('model'))
+@include('menu_architect::menu.partial._item_edit', compact('model'))
 
 @endsection
 

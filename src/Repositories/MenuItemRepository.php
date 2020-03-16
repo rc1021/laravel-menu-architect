@@ -50,12 +50,14 @@ class MenuItemRepository
         $item->fill($filtered->toArray());
         $item->save();
         
-        $item = MenuArchitectItem::findOrFail($id)->toArray();
-        $marct = MenuArct::model($item['menu_id']);
-        $children = $marct->toArray($item['id']);
-        if(count($children) > 0)
-            $item['children'] = $children;
-        return $item;
+        $item = MenuArchitectItem::findOrFail($id);
+        $children = menu_arct($item->menu->name, '_array', ['root_id' => $item->id]);
+        if($children && count($children) > 0) {
+            $data = $item->toArray();
+            $data['children'] = $children;
+            return $data;
+        }
+        return $item->toArray();
     }
 
     public function destroy($id)

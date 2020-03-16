@@ -2,8 +2,8 @@
     "name": "rc1021/laravel-menu-architect",
     "description": "backend menu builder",
     "require": {
-        "spatie/laravel-menu": "3.4.0",
-        "illuminate/support": "^6.0"
+        "php": ">=7.0",
+        "illuminate/support": "^5.5|^6|^7"
     },
     "license": "MIT",
     "authors": [
