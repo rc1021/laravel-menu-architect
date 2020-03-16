@@ -80,6 +80,19 @@ Finally, open a view and add:
 ```
 Your menu will be created and displayed on the page.
 
+## Output data
+
+You can also get menu data format by 'array' or 'json', like that:
+
+```php
+$arr_menu = menu_arct('admin', '_array');
+$json_menu = menu_arct('admin', '_json');
+```
+
+## Output display
+
+![Display Menu](https://raw.githubusercontent.com/rc1021/laravel-menu-architect/master/output_display.png)
+
 ## If You Need Help
 
 Please submit all issues and questions using GitHub issues and I will try to help you.
