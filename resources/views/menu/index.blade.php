@@ -2,13 +2,16 @@
 
 @section('title', 'Menu')
 
-@section('content')
+@section('content_header')
 <h1 class="page-title">
     <i class="glyphicon glyphicon-list"></i> Menus
     <a href="{{route('menu_arct.create')}}" class="btn btn-success">
         <i class="glyphicon glyphicon-plus"></i> Add New
     </a>
 </h1>
+@stop
+
+@section('content')
 
 @if(config('menu_architect.tips'))
 <div class="alert alert-info">

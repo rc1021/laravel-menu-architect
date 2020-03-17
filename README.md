@@ -93,6 +93,54 @@ $json_menu = menu_arct('admin', '_json');
 
 ![Display Menu](https://raw.githubusercontent.com/rc1021/laravel-menu-architect/master/output_display.png)
 
+## Custom data method
+
+You can customize some methods to use `$menu`, `$menu->items`(relation with menu_id), `$items`(parent-children).
+
+```php 
+$customize_func = function ($menu) 
+{
+    // $menu: main menu modal.
+    // $menu->items: items by menu_id.
+    // $menu->buildTree(): get a hierarchical array data.(parent, children)
+
+    $collection = collect($menu->items);
+    $filtered = $collection->filter(function ($item, $key) {
+        return $item['depth'] == 2 and isset($item['children']);
+    });
+    return $filtered->all();
+}
+
+$customize_data = menu_arct('admin', 'key', ['key' => $customize_func]);
+```
+
+## Output display with custom view
+
+![Custom View](https://raw.githubusercontent.com/rc1021/laravel-menu-architect/master/custom_view.png)
+
+Now, you can add a view to `resources/views/vendor/menu_architect/display` to render menu.
+
+if you have a view called `your_view.blade.php` 
+
+```php
+// your_view.blade.php
+
+// $menu: main menu modal
+// $menu->items: items by menu_id
+// $items: Hierarchical array data(parent, children)
+
+<ul class="sidebar-menu tree" data-widget="tree">
+    @foreach ($items as $item)
+        <li class="header {{$item['class']}}" style="{{empty($item['color'])?:'color:'.$item['color']}}">{{$item['label']}}</li>
+        @if(isset($item['children']))
+            @each('menu_architect::menu.display.adminlte_list', $item['children'], 'item')
+        @endif
+    @endforeach
+</ul>
+```
+
+and you can do `menu_arct('admin', 'your_view')` to render result
+
 ## If You Need Help
 
 Please submit all issues and questions using GitHub issues and I will try to help you.

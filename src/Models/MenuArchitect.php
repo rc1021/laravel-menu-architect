@@ -55,6 +55,11 @@ class MenuArchitect extends Model
             case '_json':
                 return json_decode(json_encode($menu->buildTree()));
                 break;
+            default:
+                $func = Arr::get($options, $type, false);
+                if( $func and is_callable( $func ) ) {
+                    return $func($menu);
+                }
         }
 
         if(empty($type))
